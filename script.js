@@ -1,24 +1,82 @@
 let boxes = document.querySelectorAll("#container > .box"); 
-var spans = document.querySelectorAll(".close");
+let span = document.querySelector(".close");
+let modal = document.querySelector(".modal");
+let title = document.querySelector("#imgtitle");
+let description = document.querySelector("#description");
+let apiObjects = [];
 
-for (let i = 1; i <= boxes.length; i++) {
-    var modal = document.getElementById("modal" + i);
-    var btn = document.getElementById("art" + i);
-    
-    // When the user clicks on the button, open the modal
-    btn.addEventListener("click", () => {
+// place event listeners on each box
+boxes.forEach(box => {
+    box.addEventListener("click", (e) => {
+        console.log(e.path[0].id);
+        console.log(apiObjects);
+        document.querySelector("#modalimg").src = apiObjects[e.path[0].id].primaryImage;
+        document.querySelector("#imgtitle").innerHTML = apiObjects[e.path[0].id].title;
+        document.querySelector("#artist").innerHTML = apiObjects[e.path[0].id].artistDisplayName;
+        document.querySelector("#bio").innerHTML = apiObjects[e.path[0].id].artistDisplayBio;
+        document.querySelector("#created").innerHTML = apiObjects[e.path[0].id].objectDate;
+        document.querySelector("#metlink").href = apiObjects[e.path[0].id].objectURL;
         modal.style.display = "block";
     })
-}
-
-// When the user clicks on <span> (x), close the modal
-spans.forEach((span) => {
-    span.addEventListener("click", modal.style.display = "none");
 })
+
+// close modal when user clicks on span
+span.onclick = function() {
+    modal.style.display = "none";
+}
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+
+
+
+// first pull an array of all object IDs into an array called pieces
+fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Vincent Van Gogh')
+    .then(res => res.json())
+    .then(res => {
+        let pieces = res.objectIDs;
+
+        // randomize pieces
+        // shuffle(pieces);        
+
+        // populates apiObjects array, and also places images on the page tiles
+        for(let i = 0; i < 6; i++) {
+        fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/' + pieces[i])
+            .then(res => res.json())
+            .then(res => {
+                boxes[i].style.backgroundImage = `url(${res.primaryImageSmall})`;
+                apiObjects[i] = res;
+            })
+        }
+    });
+
+// pulls one JSON object and pushes it onto apiObjects
+let populateObject = (id) => {
+    fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/' + id)
+        .then(res => res.json())
+        .then(res => {
+            apiObjects.push(res);
+        });
+}
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
 }

@@ -3,7 +3,10 @@ body {
 }
 
 header {
-    background-image: url("./metfacade.jpeg")
+    background-image: url("./metfacade.jpeg");
+    background-size: cover;
+    padding: 4rem 2rem;
+    text-align: center;
 }
 
 #title {
@@ -15,12 +18,14 @@ header {
 }
 
 .box {
-    height: 300px;
-    width: 95%;
+    height: 250px;
+    width: 300px;
     border: 2px solid black;
     margin: auto;
     margin-bottom: 10px;
     margin-top: 10px;
+    background-size: cover;
+    background-position: center;
 }
 
 #container {
@@ -28,14 +33,8 @@ header {
     margin: 0 auto;
     display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr; 
-    border: 1px solid black;
-}
-
-@media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
-  }
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 1rem;
 }
 
 /* The Modal (background) */
@@ -59,6 +58,8 @@ header {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
 }
 
 /* The Close Button */
@@ -74,4 +75,8 @@ header {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+#modalimg {
+    width: 90%;
 }
