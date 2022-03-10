@@ -1,5 +1,5 @@
 body {
-/*    background-color: #ffdeaf; */
+    background-color: #ffdeaf;
 }
 
 header {
@@ -15,6 +15,11 @@ header {
     font-family: 'Della Respira', serif;
     text-align: center;
     width: 100%;
+}
+
+#imgtitle {
+    font-family: 'Della Respira', serif;
+    margin-top: 5px;
 }
 
 .box {
@@ -35,6 +40,16 @@ header {
     grid-template-rows: 1fr 1fr;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 1rem;
+}
+
+#imgtitle {
+    text-align: center;
+}
+
+#imginfo {
+    padding-left: 20px;
+    font-family: 'Della Respira', serif;
+    font-size: 20px;
 }
 
 /* The Modal (background) */
@@ -78,5 +93,8 @@ header {
 }
 
 #modalimg {
-    width: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
 }

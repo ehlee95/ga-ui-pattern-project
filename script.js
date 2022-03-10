@@ -12,9 +12,9 @@ boxes.forEach(box => {
         console.log(apiObjects);
         document.querySelector("#modalimg").src = apiObjects[e.path[0].id].primaryImage;
         document.querySelector("#imgtitle").innerHTML = apiObjects[e.path[0].id].title;
-        document.querySelector("#artist").innerHTML = apiObjects[e.path[0].id].artistDisplayName;
-        document.querySelector("#bio").innerHTML = apiObjects[e.path[0].id].artistDisplayBio;
-        document.querySelector("#created").innerHTML = apiObjects[e.path[0].id].objectDate;
+        document.querySelector("#artist").innerHTML = "Artist: " + apiObjects[e.path[0].id].artistDisplayName;
+        document.querySelector("#bio").innerHTML = "Nationality: " + apiObjects[e.path[0].id].artistDisplayBio;
+        document.querySelector("#created").innerHTML = "Date: " + apiObjects[e.path[0].id].objectDate;
         document.querySelector("#metlink").href = apiObjects[e.path[0].id].objectURL;
         modal.style.display = "block";
     })
@@ -35,13 +35,10 @@ window.onclick = function(event) {
 
 
 // first pull an array of all object IDs into an array called pieces
-fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Vincent Van Gogh')
+fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&isHighlight=true&q=Vincent Van Gogh')
     .then(res => res.json())
     .then(res => {
         let pieces = res.objectIDs;
-
-        // randomize pieces
-        // shuffle(pieces);        
 
         // populates apiObjects array, and also places images on the page tiles
         for(let i = 0; i < 6; i++) {
@@ -63,20 +60,3 @@ let populateObject = (id) => {
         });
 }
 
-function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
-
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-
-  return array;
-}
